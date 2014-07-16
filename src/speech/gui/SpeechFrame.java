@@ -40,6 +40,7 @@ public class SpeechFrame extends javax.swing.JFrame {
             btnSave.setEnabled(false);
             btnDelete.setEnabled(false);
             setStatus("To start, click on 'New log'");
+            System.out.println(Constants.PATH_TO_PROFILES);
             DetectorFactory.loadProfile(Constants.PATH_TO_PROFILES);
         } catch (LangDetectException ex) {
             Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,10 +261,10 @@ public class SpeechFrame extends javax.swing.JFrame {
     private void executeShortcut(){
         try {
             Robot r = new Robot();
-            r.keyPress(KeyEvent.VK_SHIFT);
-            r.keyPress(KeyEvent.VK_F3);
-            r.keyRelease(KeyEvent.VK_F3);
-            r.keyRelease(KeyEvent.VK_SHIFT);
+            r.keyPress(Constants.KEY_1);
+            r.keyPress(Constants.KEY_2);
+            r.keyRelease(Constants.KEY_1);
+            r.keyRelease(Constants.KEY_2);
             counter++;
         } catch (AWTException ex) {
             Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
