@@ -7,12 +7,11 @@
 -
 
 ## Motivation
-
-    Private use
+    -
 
 ## Installation
 
--
+    -
 
 ## API Reference
 
@@ -20,12 +19,12 @@
 
 ## Tests
 
--
+    -
 
 ## Contributors
 
--
+    -
 
 ## License
 
-Apache License
+    - Apache License
