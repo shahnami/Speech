@@ -25,8 +25,12 @@
 ## Contributors
 
     -
+    
+## Issues
 
-##Licence
+    -
+
+## Licence
 
     Copyright 2014 Nami Shah
     
@@ -42,3 +46,7 @@
        See the License for the specific language governing permissions and
        limitations under the License.
 
+
+## Screenshots
+
+    -
