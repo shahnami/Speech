@@ -9,7 +9,6 @@ import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -39,8 +38,8 @@ public class SpeechFrame extends javax.swing.JFrame {
             cbxEditMode.setSelected(false);
             btnSave.setEnabled(false);
             btnDelete.setEnabled(false);
-            setStatus("To start, click on 'New log'");
-            System.out.println(Constants.PATH_TO_PROFILES);
+            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("TO START, CLICK ON 'NEW LOG'"));
+            //System.out.println(Constants.PATH_TO_PROFILES);
             DetectorFactory.loadProfile(Constants.PATH_TO_PROFILES);
         } catch (LangDetectException ex) {
             Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,7 +52,7 @@ public class SpeechFrame extends javax.swing.JFrame {
         new java.util.TimerTask() {
             @Override
             public void run() {
-                lblStatus.setText("");
+                lblStatus.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("TO START, CLICK ON 'NEW LOG'"));
             }
         }, 5000 
         );
@@ -82,7 +81,8 @@ public class SpeechFrame extends javax.swing.JFrame {
         lstLogs = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Speech");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("speech/gui/bundle_nl_NL"); // NOI18N
+        setTitle(bundle.getString("SPEECH")); // NOI18N
         setName("frmSpeech"); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
@@ -93,6 +93,14 @@ public class SpeechFrame extends javax.swing.JFrame {
         txtLog.setRows(5);
         txtLog.setWrapStyleWord(true);
         txtLog.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        txtLog.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtLogFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLogFocusLost(evt);
+            }
+        });
         txtLog.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 txtLogMouseReleased(evt);
@@ -115,21 +123,21 @@ public class SpeechFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnReq.setText("Request logs");
+        btnReq.setText(bundle.getString("REQUEST LOGS")); // NOI18N
         btnReq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReqActionPerformed(evt);
             }
         });
 
-        btnNew.setText("New log");
+        btnNew.setText(bundle.getString("NEW LOG")); // NOI18N
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
             }
         });
 
-        btnSave.setText("Save log");
+        btnSave.setText(bundle.getString("SAVE LOG")); // NOI18N
         btnSave.setEnabled(false);
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,7 +145,7 @@ public class SpeechFrame extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setText("Delete log");
+        btnDelete.setText(bundle.getString("DELETE LOG")); // NOI18N
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -145,7 +153,7 @@ public class SpeechFrame extends javax.swing.JFrame {
         });
 
         cbxEditMode.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
-        cbxEditMode.setText("Edit mode");
+        cbxEditMode.setText(bundle.getString("EDIT MODE")); // NOI18N
         cbxEditMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxEditModeActionPerformed(evt);
@@ -236,24 +244,22 @@ public class SpeechFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        btnReq.setText("Request logs");
+        btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"));
         lstLogs.clearSelection();
-        if(btnNew.getText().equalsIgnoreCase("New log")){
+        if(btnNew.getText().equalsIgnoreCase(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NEW LOG"))){
             txtLog.setText("");
             txtLog.setForeground(Color.BLACK);
-            btnNew.setText("Clear");
-            txtLog.setEnabled(true);
-            cbxEditMode.setSelected(true);
+            editMode(true);
+            btnNew.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("CLEAR"));
             btnSave.setEnabled(true);
-            setStatus("Click in the text area to start recording.");
+            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("CLICK IN THE TEXT AREA TO START RECORDING."));
         } else {
+            editMode(false);
             btnSave.setEnabled(false);
             txtLog.setForeground(Color.RED);
-            txtLog.setEnabled(false);
-            cbxEditMode.setSelected(false);
             executeShortcut();
-            btnNew.setText("New log");
-            setStatus("The log was not saved!");
+            btnNew.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NEW LOG"));
+            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THE LOG WAS NOT SAVED!"));
         }
         
     }//GEN-LAST:event_btnNewActionPerformed
@@ -263,24 +269,20 @@ public class SpeechFrame extends javax.swing.JFrame {
             Robot r = new Robot();
             r.keyPress(Constants.KEY_1);
             r.keyPress(Constants.KEY_2);
+            Thread.sleep(100);
             r.keyRelease(Constants.KEY_1);
             r.keyRelease(Constants.KEY_2);
-            counter++;
-        } catch (AWTException ex) {
+        } catch (AWTException | InterruptedException ex) {
             Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void txtLogMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLogMouseReleased
-        if(txtLog.isEnabled()){
-            txtLog.requestFocusInWindow();
-            executeShortcut();
-            setStatus("Speech is recording");
-        }
+ 
     }//GEN-LAST:event_txtLogMouseReleased
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try{
-            btnReq.setText("Request logs");
+            btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"));
             btnReq.setEnabled(true);
             String content = txtLog.getText();
             if(!content.isEmpty()){
@@ -288,19 +290,19 @@ public class SpeechFrame extends javax.swing.JFrame {
                     //Save
                     String id = lstLogs.getSelectedValue().toString().substring(lstLogs.getSelectedValue().toString().indexOf("[") + 1, lstLogs.getSelectedValue().toString().indexOf("]"));
                     db.saveLog(Integer.parseInt(id), content);
-                    setStatus("Log saved to database.");
+                    setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG SAVED TO DATABASE."));
                 } else {
                     //Insert
                     if(txtLog.isEnabled()){
                         db.insertLog(content, Constants.AUTHOR);
-                        setStatus("Log inserted in database.");
+                        setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG INSERTED IN DATABASE."));
                     }
                 }
             } else {
-                setStatus("Nothing has been saved, the log is empty.");
+                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NOTHING HAS BEEN SAVED, THE LOG IS EMPTY."));
             }
             btnSave.setEnabled(false);
-            btnNew.setText("New log");
+            btnNew.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NEW LOG"));
             btnReq.doClick();
         } catch (Exception ex) {
             setStatus(ex.getMessage());
@@ -308,29 +310,36 @@ public class SpeechFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnReqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReqActionPerformed
-        if(btnReq.getText().equalsIgnoreCase("Request logs")){
+        if(btnReq.getText().equalsIgnoreCase(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"))){
             List<String> allLogs = db.getAllLogsFormat();
             DefaultListModel model = new DefaultListModel();
             for(String log:allLogs){
                 model.addElement(log);
             }
-            lstLogs.setModel(model);
-            txtLog.setEnabled(false);
-            cbxEditMode.setSelected(false);
-            btnReq.setText("Translate log");
+            if(allLogs.size() > 0){
+                lstLogs.setModel(model);
+                btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("TRANSLATE LOG"));
+            } else {
+                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THERE ARE NO LOGS IN THE DATABASE"));
+            }
         } else {
-            try {
-                //Translate
-                Translator translate = Translator.getInstance();
-                Detector detector = DetectorFactory.create();
-                detector.append(txtLog.getText());
-                String lang = detector.detect();
-                if(!lang.equalsIgnoreCase("nl")){
+            if(!txtLog.getText().equalsIgnoreCase("")) {
+                try {
+                    //Translate
+                    Translator translate = Translator.getInstance();
+                    Detector detector = DetectorFactory.create();
+                    detector.append(txtLog.getText());
+                    String lang = detector.detect();
+                    //System.out.println(lang);
                     if(txtLog.getText().split(" ").length >= 50){
                         Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
                             try {
-                                desktop.browse(new URL("https://translate.google.com/#en/nl/"+URLEncoder.encode(txtLog.getText())).toURI());
+                                if(!lang.equalsIgnoreCase("nl")){
+                                    desktop.browse(new URL("https://translate.google.com/#en/nl/"+URLEncoder.encode(txtLog.getText())).toURI());
+                                } else {
+                                    desktop.browse(new URL("https://translate.google.com/#nl/en/"+URLEncoder.encode(txtLog.getText())).toURI());
+                                }
                             } catch (IOException e) {
                                 //
                             } catch (URISyntaxException ex) {
@@ -338,34 +347,35 @@ public class SpeechFrame extends javax.swing.JFrame {
                             }
                         }
                     } else {
-                        String text = translate.translate(txtLog.getText().replace(",", "|").replace(".", "/"), Language.ENGLISH, Language.DUTCH);
+                        String text;
+                        if(!lang.equalsIgnoreCase("nl")){
+                            text = translate.translate(txtLog.getText().replace(",", "|").replace(".", "/"), Language.ENGLISH, Language.DUTCH);
+                        } else {
+                            text = translate.translate(txtLog.getText().replace(",", "|").replace(".", "/"), Language.DUTCH, Language.ENGLISH);
+                        }
                         txtLog.setText(text.replace(" |", ",").replace(" /", "."));
-                        btnReq.setEnabled(false);              
+                        //btnReq.setEnabled(false);              
                     }
                     if(txtLog.getText().split(" ").length > 1)
-                        setStatus("The log contains ~" + txtLog.getText().split(" ").length + " words");
+                        setStatus(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THE LOG CONTAINS ~{0} WORDS"), new Object[] {txtLog.getText().split(" ").length}));
                     else
-                        setStatus("The log contains ~" + txtLog.getText().split(" ").length + " word");
-                } else {
-                    setStatus("This text is already in dutch.");
+                        setStatus(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THE LOG CONTAINS ~{0} WORD"), new Object[] {txtLog.getText().split(" ").length}));
+
+                } catch (LangDetectException ex) {
+                    Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
- 
-            } catch (LangDetectException ex) {
-                Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnReqActionPerformed
 
     private void lstLogsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstLogsValueChanged
         if(lstLogs.getSelectedValue() == null || ((lstLogs.getSelectedValue().toString().indexOf("]")) - (lstLogs.getSelectedValue().toString().indexOf("[")+1)) < 0){
-            //
             btnDelete.setEnabled(false);
         } else {
+            editMode(false);
             btnReq.setEnabled(true);
             btnSave.setEnabled(true);
             btnDelete.setEnabled(true);
-            txtLog.setEnabled(true);
-            cbxEditMode.setSelected(true);
             String id = lstLogs.getSelectedValue().toString().substring(lstLogs.getSelectedValue().toString().indexOf("[") + 1, lstLogs.getSelectedValue().toString().indexOf("]"));
             String content = db.getLogById(Integer.parseInt(id));
             txtLog.setForeground(Color.BLUE);
@@ -374,17 +384,17 @@ public class SpeechFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_lstLogsValueChanged
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        btnReq.setText("Request logs");
+        btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"));
         if(lstLogs.getSelectedValue() == null || ((lstLogs.getSelectedValue().toString().indexOf("]")) - (lstLogs.getSelectedValue().toString().indexOf("[")+1)) < 0){
             //
         } else {
             String id = lstLogs.getSelectedValue().toString().substring(lstLogs.getSelectedValue().toString().indexOf("[") + 1, lstLogs.getSelectedValue().toString().indexOf("]"));
-            int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you wish to delete this log?","Warning",JOptionPane.YES_NO_OPTION);
+            int dialogResult = JOptionPane.showConfirmDialog (null, java.util.ResourceBundle.getBundle(Constants.LANG).getString("ARE YOU SURE YOU WISH TO DELETE THIS LOG?"),java.util.ResourceBundle.getBundle(Constants.LANG).getString("WARNING"),JOptionPane.YES_NO_OPTION);
             if(dialogResult == JOptionPane.YES_OPTION){
                 db.deleteLog(Integer.parseInt(id));
-                setStatus("Log "+id+" has been deleted.");
+                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG ")+id+java.util.ResourceBundle.getBundle(Constants.LANG).getString(" HAS BEEN DELETED."));
             } else {
-                setStatus("Log "+id+" has NOT been deleted.");
+                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG ")+id+java.util.ResourceBundle.getBundle(Constants.LANG).getString(" HAS NOT BEEN DELETED."));
             }
             txtLog.setForeground(Color.BLACK);
             txtLog.setText("");
@@ -393,6 +403,10 @@ public class SpeechFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void editMode(boolean on){
+        txtLog.setEnabled(on);
+        cbxEditMode.setSelected(on);
+    }
     private void cbxEditModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEditModeActionPerformed
         if(cbxEditMode.isSelected()){
             txtLog.setEnabled(true);
@@ -400,6 +414,19 @@ public class SpeechFrame extends javax.swing.JFrame {
             txtLog.setEnabled(false);
         }
     }//GEN-LAST:event_cbxEditModeActionPerformed
+
+    private void txtLogFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLogFocusGained
+        if(txtLog.isEnabled()){
+            txtLog.requestFocusInWindow();
+            executeShortcut();
+            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("SPEECH IS RECORDING"));
+        }
+    }//GEN-LAST:event_txtLogFocusGained
+
+    private void txtLogFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLogFocusLost
+        executeShortcut();
+        setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("SPEECH STOPPED RECORDING"));
+    }//GEN-LAST:event_txtLogFocusLost
 
     /**
      * @param args the command line arguments
