@@ -49,4 +49,13 @@
 
 ## Screenshots
 
-    -
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/1.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/2.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/3.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/4.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/5.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/6.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/7.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/8.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/9.png?raw=true "")
+    ![alt text](https://raw.githubusercontent.com/ShahNami/Speech/master/pics/10.png?raw=true "")
