@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import speech.database.Database;
+import speech.updater.Updater;
 
 /**
  *
@@ -27,6 +28,8 @@ import speech.database.Database;
 public class SpeechFrame extends javax.swing.JFrame {
     private int counter = 0;
     private final Database db = new Database();
+    private java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("speech/gui/Bundle_nl_NL");
+        
     /**
      * Creates new form speechFrame
      */
@@ -38,7 +41,7 @@ public class SpeechFrame extends javax.swing.JFrame {
             cbxEditMode.setSelected(false);
             btnSave.setEnabled(false);
             btnDelete.setEnabled(false);
-            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("TO START, CLICK ON 'NEW LOG'"));
+            setStatus(bundle.getString("TO START, CLICK ON 'NEW LOG'"));
             //System.out.println(Constants.PATH_TO_PROFILES);
             DetectorFactory.loadProfile(Constants.PATH_TO_PROFILES);
         } catch (LangDetectException ex) {
@@ -52,7 +55,7 @@ public class SpeechFrame extends javax.swing.JFrame {
         new java.util.TimerTask() {
             @Override
             public void run() {
-                lblStatus.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("TO START, CLICK ON 'NEW LOG'"));
+                lblStatus.setText(bundle.getString("TO START, CLICK ON 'NEW LOG'"));
             }
         }, 5000 
         );
@@ -76,12 +79,13 @@ public class SpeechFrame extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         cbxEditMode = new javax.swing.JCheckBox();
+        btnUpdate = new javax.swing.JButton();
         lblStatus = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstLogs = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("speech/gui/bundle_nl_NL"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("speech/gui/Bundle_nl_NL"); // NOI18N
         setTitle(bundle.getString("SPEECH")); // NOI18N
         setName("frmSpeech"); // NOI18N
 
@@ -160,6 +164,15 @@ public class SpeechFrame extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.setBackground(new java.awt.Color(204, 204, 204));
+        btnUpdate.setForeground(new java.awt.Color(102, 102, 102));
+        btnUpdate.setText(bundle.getString("UPDATE")); // NOI18N
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -167,14 +180,15 @@ public class SpeechFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                    .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnReq, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(cbxEditMode)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnUpdate))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +202,9 @@ public class SpeechFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxEditMode)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxEditMode)
+                    .addComponent(btnUpdate))
                 .addContainerGap())
         );
 
@@ -236,7 +252,7 @@ public class SpeechFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -244,22 +260,22 @@ public class SpeechFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"));
+        btnReq.setText(bundle.getString("REQUEST LOGS"));
         lstLogs.clearSelection();
-        if(btnNew.getText().equalsIgnoreCase(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NEW LOG"))){
+        if(btnNew.getText().equalsIgnoreCase(bundle.getString("NEW LOG"))){
             txtLog.setText("");
             txtLog.setForeground(Color.BLACK);
             editMode(true);
-            btnNew.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("CLEAR"));
+            btnNew.setText(bundle.getString("CLEAR"));
             btnSave.setEnabled(true);
-            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("CLICK IN THE TEXT AREA TO START RECORDING."));
+            setStatus(bundle.getString("CLICK IN THE TEXT AREA TO START RECORDING."));
         } else {
             editMode(false);
             btnSave.setEnabled(false);
             txtLog.setForeground(Color.RED);
             executeShortcut();
-            btnNew.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NEW LOG"));
-            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THE LOG WAS NOT SAVED!"));
+            btnNew.setText(bundle.getString("NEW LOG"));
+            setStatus(bundle.getString("THE LOG WAS NOT SAVED!"));
         }
         
     }//GEN-LAST:event_btnNewActionPerformed
@@ -282,7 +298,7 @@ public class SpeechFrame extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try{
-            btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"));
+            btnReq.setText(bundle.getString("REQUEST LOGS"));
             btnReq.setEnabled(true);
             String content = txtLog.getText();
             if(!content.isEmpty()){
@@ -290,19 +306,19 @@ public class SpeechFrame extends javax.swing.JFrame {
                     //Save
                     String id = lstLogs.getSelectedValue().toString().substring(lstLogs.getSelectedValue().toString().indexOf("[") + 1, lstLogs.getSelectedValue().toString().indexOf("]"));
                     db.saveLog(Integer.parseInt(id), content);
-                    setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG SAVED TO DATABASE."));
+                    setStatus(bundle.getString("LOG SAVED TO DATABASE."));
                 } else {
                     //Insert
                     if(txtLog.isEnabled()){
                         db.insertLog(content, Constants.AUTHOR);
-                        setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG INSERTED IN DATABASE."));
+                        setStatus(bundle.getString("LOG INSERTED IN DATABASE."));
                     }
                 }
             } else {
-                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NOTHING HAS BEEN SAVED, THE LOG IS EMPTY."));
+                setStatus(bundle.getString("NOTHING HAS BEEN SAVED, THE LOG IS EMPTY."));
             }
             btnSave.setEnabled(false);
-            btnNew.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("NEW LOG"));
+            btnNew.setText(bundle.getString("NEW LOG"));
             btnReq.doClick();
         } catch (Exception ex) {
             setStatus(ex.getMessage());
@@ -310,7 +326,7 @@ public class SpeechFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnReqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReqActionPerformed
-        if(btnReq.getText().equalsIgnoreCase(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"))){
+        if(btnReq.getText().equalsIgnoreCase(bundle.getString("REQUEST LOGS"))){
             List<String> allLogs = db.getAllLogsFormat();
             DefaultListModel model = new DefaultListModel();
             for(String log:allLogs){
@@ -318,9 +334,9 @@ public class SpeechFrame extends javax.swing.JFrame {
             }
             if(allLogs.size() > 0){
                 lstLogs.setModel(model);
-                btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("TRANSLATE LOG"));
+                btnReq.setText(bundle.getString("TRANSLATE LOG"));
             } else {
-                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THERE ARE NO LOGS IN THE DATABASE"));
+                setStatus(bundle.getString("THERE ARE NO LOGS IN THE DATABASE"));
             }
         } else {
             if(!txtLog.getText().equalsIgnoreCase("")) {
@@ -357,9 +373,9 @@ public class SpeechFrame extends javax.swing.JFrame {
                         //btnReq.setEnabled(false);              
                     }
                     if(txtLog.getText().split(" ").length > 1)
-                        setStatus(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THE LOG CONTAINS ~{0} WORDS"), new Object[] {txtLog.getText().split(" ").length}));
+                        setStatus(java.text.MessageFormat.format(bundle.getString("THE LOG CONTAINS ~{0} WORDS"), new Object[] {txtLog.getText().split(" ").length}));
                     else
-                        setStatus(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(Constants.LANG).getString("THE LOG CONTAINS ~{0} WORD"), new Object[] {txtLog.getText().split(" ").length}));
+                        setStatus(java.text.MessageFormat.format(bundle.getString("THE LOG CONTAINS ~{0} WORD"), new Object[] {txtLog.getText().split(" ").length}));
 
                 } catch (LangDetectException ex) {
                     Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -384,17 +400,17 @@ public class SpeechFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_lstLogsValueChanged
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        btnReq.setText(java.util.ResourceBundle.getBundle(Constants.LANG).getString("REQUEST LOGS"));
+        btnReq.setText(bundle.getString("REQUEST LOGS"));
         if(lstLogs.getSelectedValue() == null || ((lstLogs.getSelectedValue().toString().indexOf("]")) - (lstLogs.getSelectedValue().toString().indexOf("[")+1)) < 0){
             //
         } else {
             String id = lstLogs.getSelectedValue().toString().substring(lstLogs.getSelectedValue().toString().indexOf("[") + 1, lstLogs.getSelectedValue().toString().indexOf("]"));
-            int dialogResult = JOptionPane.showConfirmDialog (null, java.util.ResourceBundle.getBundle(Constants.LANG).getString("ARE YOU SURE YOU WISH TO DELETE THIS LOG?"),java.util.ResourceBundle.getBundle(Constants.LANG).getString("WARNING"),JOptionPane.YES_NO_OPTION);
+            int dialogResult = JOptionPane.showConfirmDialog (null, bundle.getString("ARE YOU SURE YOU WISH TO DELETE THIS LOG?"),bundle.getString("WARNING"),JOptionPane.YES_NO_OPTION);
             if(dialogResult == JOptionPane.YES_OPTION){
                 db.deleteLog(Integer.parseInt(id));
-                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG ")+id+java.util.ResourceBundle.getBundle(Constants.LANG).getString(" HAS BEEN DELETED."));
+                setStatus(bundle.getString("LOG ")+id+bundle.getString(" HAS BEEN DELETED."));
             } else {
-                setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("LOG ")+id+java.util.ResourceBundle.getBundle(Constants.LANG).getString(" HAS NOT BEEN DELETED."));
+                setStatus(bundle.getString("LOG ")+id+bundle.getString(" HAS NOT BEEN DELETED."));
             }
             txtLog.setForeground(Color.BLACK);
             txtLog.setText("");
@@ -419,14 +435,26 @@ public class SpeechFrame extends javax.swing.JFrame {
         if(txtLog.isEnabled()){
             txtLog.requestFocusInWindow();
             executeShortcut();
-            setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("SPEECH IS RECORDING"));
+            setStatus(bundle.getString("SPEECH IS RECORDING"));
         }
     }//GEN-LAST:event_txtLogFocusGained
 
     private void txtLogFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLogFocusLost
         executeShortcut();
-        setStatus(java.util.ResourceBundle.getBundle(Constants.LANG).getString("SPEECH STOPPED RECORDING"));
+        setStatus(bundle.getString("SPEECH STOPPED RECORDING"));
     }//GEN-LAST:event_txtLogFocusLost
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            if(Updater.getInstance().downloadUpdate()){
+                setStatus(bundle.getString("NEW UPDATE DOWNLOADED"));
+            } else {
+                setStatus(bundle.getString("YOU ARE CURRENTLY UP TO DATE"));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SpeechFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -468,6 +496,7 @@ public class SpeechFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnReq;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JCheckBox cbxEditMode;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

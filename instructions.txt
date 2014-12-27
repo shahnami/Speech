@@ -1,0 +1,23 @@
+1. Installeer MAMP hier: http://downloads2.mamp.info/MAMP-PRO/releases/3.0.7.2/MAMP_MAMP_PRO_3.0.7.2.pkg
+2. *Start MAMP op en ga naar: http://localhost:88/phpMyAdmin/
+3. Vervolgens maak je een nieuwe database aan met als naam ‘log’
+4. Dan ga je naar de ‘log’ database en ga je naar "Import"
+5. Klik op de knop "Choose file" en selecteer het .sql bestand
+6. Dubbelklik op Speech.jar
+
+! BELANGRIJK !
+1. Zorg ervoor dat de Speech.jar en de folder 'lib' in hetzelfde map zitten
+2. Zorg ervoor dat de volgende folder 'speech/profiles' op je bureaublad staat
+
+Als je speech.zip uitpakt op je bureaublad, zou alles naar behoren moeten werken
+
+
+
+* Als de link niet werkt probeer dan een van de volgende:
+http://localhost:80/phpMyAdmin/
+http://localhost:8008/phpMyAdmin/
+http://localhost:8080/phpMyAdmin/
+
+Als er een gebruiker/passwoord wordt gevraagd:
+username: root
+password: root
