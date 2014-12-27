@@ -16,7 +16,7 @@ public interface Constants {
     public final int KEY_1 = KeyEvent.VK_SHIFT;
     public final int KEY_2 = KeyEvent.VK_F3;
     /* ON UPDATE => THIS SHOULD BE THE SAME AS GITHUB RELEASE VERSION */
-    public final String VERSION = "1.0.1";
+    public final String VERSION = "1.0.3";
     public final String VERSION_URL = "https://github.com/ShahNami/Speech/tags";
     public final String DOWNLOAD_FILE_URL = "https://github.com/ShahNami/Speech/releases/download/";
     public final String DOWNLOAD_FILE_NAME = "Speech";
