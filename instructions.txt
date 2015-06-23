@@ -20,7 +20,8 @@ http://localhost:8080/phpMyAdmin/
 
 If credentials are asked, use:
 username: root
-password:
-OR
-username: root
-password: root
+password: 
+
+Go to system preferences -> Dictation & Speech -> Enable dictation
+Language -> Download Dutch and English
+Shortcut key -> CONTROL + 1
